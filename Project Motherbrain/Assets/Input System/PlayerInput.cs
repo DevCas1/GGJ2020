@@ -50,8 +50,8 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                 {
                     ""name"": ""Keyboard"",
                     ""id"": ""e67680bd-6613-4b5f-b649-5b36fff68141"",
-                    ""path"": ""2DVector"",
-                    ""interactions"": """",
+                    ""path"": ""2DVector(normalize=false)"",
+                    ""interactions"": ""Press,Hold"",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Movement"",
