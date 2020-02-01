@@ -68,9 +68,6 @@ public class PlayerController : MonoBehaviour
     {
         Vector3 inputMovement = (Mathf.Abs(_movementInput.sqrMagnitude - Vector3.zero.sqrMagnitude) > 0.1f) ? VisualTransform.forward : Vector3.zero;
 
-        //if (Mathf.Abs(_movementInput.sqrMagnitude - Vector3.zero.sqrMagnitude) <= 0.1f)
-        //    return;
-
         Vector3 velocity = _movementActive ? transform.position + inputMovement * (MovementSpeed * Time.deltaTime) : Vector3.zero;
 
         Rigidbody.MovePosition(velocity + new Vector3(0, _jumpVelocity, 0));
@@ -79,7 +76,7 @@ public class PlayerController : MonoBehaviour
     private void UpdateJump()
     {
         if (Rigidbody.velocity.y < 0)
-            _jumpVelocity += GravityMultiplier * Physics.gravity.y * FallMultiplier * Time.deltaTime;
+            _jumpVelocity += GravityMultiplier * FallMultiplier * Time.deltaTime;
     }
 
     private void ResetJump()

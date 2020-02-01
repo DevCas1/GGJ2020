@@ -1,8 +1,9 @@
-﻿using UnityEngine;
+﻿using DG.Tweening;
+using UnityEngine;
 
 public class BoostBody : BodyEquipment
 {
-    [SerializeField] private float BoostSpeed = 5;
+    [SerializeField] private float BoostDistance = 3;
     [SerializeField] private float BoostDuration = 2;
 
     private Collider _collider;
@@ -13,20 +14,11 @@ public class BoostBody : BodyEquipment
 
     private void Start() => _collider = GetComponent<Collider>();
 
-    private void Update()
+    private void Finish()
     {
-        if (!_isBoosting)
-            return;
-
-        if (_boostTimer <= 0)
-        {
-            PlayerGear.DetachBody(this);
-            _isBoosting = false;
-            return;
-        }
-
-        PlayerController.Rigidbody.MovePosition(PlayerController.transform.position + _boostDirection * (BoostSpeed * Time.deltaTime));
-        _boostTimer -= Time.deltaTime;
+        PlayerController.ExitBoost();
+        PlayerGear.DetachBody(this);
+        _isBoosting = false;
     }
 
     public override void Attach(PlayerController controller, PlayerGear gear)
@@ -40,8 +32,9 @@ public class BoostBody : BodyEquipment
 
     public override void Use()
     {
-        _boostDirection = PlayerController.Visuals.forward;
         _isBoosting = true;
         _boostTimer = BoostDuration;
+        PlayerController.Boost();
+        PlayerRigidbody.DOMove(PlayerController.Visuals.forward * BoostDistance, BoostDuration).OnComplete(Finish);
     }
 }
