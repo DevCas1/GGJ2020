@@ -5,6 +5,8 @@ public class BoostBody : BodyEquipment
     [SerializeField] private float BoostSpeed = 5;
     [SerializeField] private float BoostDuration = 2;
 
+    private Collider _collider;
+
     private bool _isBoosting;
     private Vector3 _boostDirection;
     private float _boostTimer;
@@ -27,6 +29,8 @@ public class BoostBody : BodyEquipment
 
     public override void Attach(PlayerController controller, PlayerGear gear)
     {
+        _collider.enabled = false;
+
         PlayerController = controller;
         PlayerGear = gear;
         PlayerRigidbody = controller.Rigidbody;

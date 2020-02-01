@@ -2,11 +2,11 @@
 
 public class JumpBoots : LegsEquipment
 {
-    private BoxCollider _collider;
+    private Collider _collider;
 
     private void Awake()
     {
-        _collider = GetComponent<BoxCollider>();
+        _collider = GetComponent<Collider>();
     }
 
     public override void Attach(PlayerController controller, PlayerGear gear)
@@ -22,6 +22,6 @@ public class JumpBoots : LegsEquipment
         PlayerController.Jump();
         PlayerGear.DetachLegs(this);
 
-        _collider.enabled = true;
+        // Recycle this powerup
     }
 }

@@ -15,11 +15,12 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField, Header("Jumping")] private float JumpVelocity = 5;
     [SerializeField] private float FallMultiplier = 2.5f;
+    [SerializeField, Range(0.1f, 1)] private float GravityMultiplier = 1;
     [SerializeField, InspectorName("Jump Landing Check Distance")] private float JumpLandCheckDist;
     [SerializeField, Range(0.1f, 1), InspectorName("Jump Landing Check Radius")] private float JumpLandCheckRad;
 
     private Vector2 _movementInput;
-    private bool _movementActive;
+    private bool _movementActive = true;
 
     private Vector3 _moveVector;
     private Vector2 _movement;
@@ -37,7 +38,11 @@ public class PlayerController : MonoBehaviour
 
     private void OnDisable() => Input.Gameplay.Disable();
 
-    private void Start() => Rigidbody = GetComponent<Rigidbody>();
+    private void Start()
+    {
+        Rigidbody = GetComponent<Rigidbody>();
+        _movementActive = true;
+    }
 
     private void Update()
     {
@@ -74,7 +79,7 @@ public class PlayerController : MonoBehaviour
     private void UpdateJump()
     {
         if (Rigidbody.velocity.y < 0)
-            _jumpVelocity += 1 * Physics.gravity.y * FallMultiplier * Time.deltaTime;
+            _jumpVelocity += 0.5f * Physics.gravity.y * FallMultiplier * Time.deltaTime;
     }
 
     private void ResetJump()

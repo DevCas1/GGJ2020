@@ -142,8 +142,9 @@ MonoBehaviour:
   VisualTransform: {fileID: 6627934095034297274}
   MovementSpeed: 3
   RotationSpeed: 10
-  JumpVelocity: 0.5
+  JumpVelocity: 0.2
   FallMultiplier: 0.15
+  GravityMultiplier: 0.5
   JumpLandCheckDist: 1.33
   JumpLandCheckRad: 0.2
 --- !u!114 &4339539513334915243
