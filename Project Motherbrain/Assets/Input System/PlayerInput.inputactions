@@ -14,10 +14,42 @@
                     "interactions": ""
                 },
                 {
-                    "name": "Jump",
+                    "name": "Attach",
+                    "type": "Button",
+                    "id": "320217a0-426e-4a98-81d8-4e3aef6fa3e8",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "Press"
+                },
+                {
+                    "name": "Head",
+                    "type": "Button",
+                    "id": "473e24cb-4e51-434e-be6f-7d7db6184b8c",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "Press"
+                },
+                {
+                    "name": "Body",
+                    "type": "Button",
+                    "id": "5a46fade-e908-477d-a665-f44c6c966dcc",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "Press"
+                },
+                {
+                    "name": "Arms",
                     "type": "Button",
                     "id": "60ea519c-1936-446b-8612-8001a060097c",
                     "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "Press"
+                },
+                {
+                    "name": "Legs",
+                    "type": "Button",
+                    "id": "acdf29cf-669e-4209-8c82-fec83ab4b8e3",
+                    "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "Press"
                 }
@@ -91,12 +123,23 @@
                 },
                 {
                     "name": "",
+                    "id": "0fc73ffd-8021-42e6-983b-15df3ecd82bf",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Body",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "e155f5bd-3b2f-4d78-b7c4-4cc17135806f",
                     "path": "<Gamepad>/buttonSouth",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Jump",
+                    "action": "Legs",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -107,7 +150,40 @@
                     "interactions": "Press",
                     "processors": "",
                     "groups": "",
-                    "action": "Jump",
+                    "action": "Legs",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "fd06d4fb-3062-434d-b144-cfe037650923",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Arms",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c251362f-1856-494c-8908-96504c59b8b1",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Head",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "254d48a9-3673-4aea-9ec7-7a67e62a06d6",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Attach",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
