@@ -107,8 +107,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92ad96f87d2f73b459765fcef35d329a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BoostSpeed: 5
-  BoostDuration: 2
+  BoostDistance: 2
+  BoostDuration: 1.5
 --- !u!135 &1525165494588818523
 SphereCollider:
   m_ObjectHideFlags: 0

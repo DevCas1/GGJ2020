@@ -14,14 +14,6 @@
                     "interactions": ""
                 },
                 {
-                    "name": "Attach",
-                    "type": "Button",
-                    "id": "320217a0-426e-4a98-81d8-4e3aef6fa3e8",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "Press"
-                },
-                {
                     "name": "Head",
                     "type": "Button",
                     "id": "473e24cb-4e51-434e-be6f-7d7db6184b8c",
@@ -124,7 +116,18 @@
                 {
                     "name": "",
                     "id": "0fc73ffd-8021-42e6-983b-15df3ecd82bf",
-                    "path": "",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Body",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f0d1f2c0-217a-4046-ad0b-65a3971ab89c",
+                    "path": "<Keyboard>/shift",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -173,17 +176,6 @@
                     "processors": "",
                     "groups": "",
                     "action": "Head",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "254d48a9-3673-4aea-9ec7-7a67e62a06d6",
-                    "path": "",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Attach",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

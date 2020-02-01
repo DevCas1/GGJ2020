@@ -79,7 +79,7 @@ public class PlayerController : MonoBehaviour
     private void UpdateJump()
     {
         if (Rigidbody.velocity.y < 0)
-            _jumpVelocity += GravityMultiplier * Physics.gravity.y * FallMultiplier * Time.deltaTime;
+            _jumpVelocity += GravityMultiplier * FallMultiplier * Time.deltaTime;
     }
 
     private void ResetJump()

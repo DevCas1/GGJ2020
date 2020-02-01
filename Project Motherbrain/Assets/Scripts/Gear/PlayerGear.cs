@@ -19,9 +19,7 @@ public class PlayerGear : MonoBehaviour
     private BodyEquipment _bodyEquipment;
     private ArmsEquipment _armsEquipment;
     private LegsEquipment _legsEquipment;
-
-    //private IEquipable _attachableEquipment;
-
+    
     private void Reset()
     {
         PickupTrigger.isTrigger = true;

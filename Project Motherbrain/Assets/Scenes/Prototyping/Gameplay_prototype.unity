@@ -11515,30 +11515,25 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 6773399396074698725, guid: 1cd473c8e2df51c41b22cda4943b0eb4,
+    - target: {fileID: 537246021269305643, guid: 1cd473c8e2df51c41b22cda4943b0eb4,
         type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
+      propertyPath: m_LocalScale.x
+      value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 6773399396074698725, guid: 1cd473c8e2df51c41b22cda4943b0eb4,
+    - target: {fileID: 537246021269305643, guid: 1cd473c8e2df51c41b22cda4943b0eb4,
         type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -2
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 537246021269305643, guid: 1cd473c8e2df51c41b22cda4943b0eb4,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6950513565436584208, guid: 1cd473c8e2df51c41b22cda4943b0eb4,
         type: 3}
       propertyPath: m_Name
       value: B.I.T.T. (player)
-      objectReference: {fileID: 0}
-    - target: {fileID: 8628362780306588640, guid: 1cd473c8e2df51c41b22cda4943b0eb4,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8628362780306588640, guid: 1cd473c8e2df51c41b22cda4943b0eb4,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.625
       objectReference: {fileID: 0}
     - target: {fileID: 9137554231749977931, guid: 1cd473c8e2df51c41b22cda4943b0eb4,
         type: 3}
