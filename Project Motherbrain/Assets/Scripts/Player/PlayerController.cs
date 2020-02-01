@@ -6,6 +6,7 @@ public class PlayerController : MonoBehaviour
 {
     public PlayerInput Input { get; private set; }
     public Rigidbody Rigidbody { get; private set; }
+    public Transform Visuals => VisualTransform;
 
     [SerializeField, Header("References ~ REQUIRED")] private Transform VisualTransform;
 
@@ -18,7 +19,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField, Range(0.1f, 1), InspectorName("Jump Landing Check Radius")] private float JumpLandCheckRad;
 
     private Vector2 _movementInput;
-    private bool _activeMoveInput;
+    private bool _movementActive;
 
     private Vector3 _moveVector;
     private Vector2 _movement;
@@ -65,7 +66,7 @@ public class PlayerController : MonoBehaviour
         //if (Mathf.Abs(_movementInput.sqrMagnitude - Vector3.zero.sqrMagnitude) <= 0.1f)
         //    return;
 
-        Vector3 velocity = transform.position + inputMovement * (MovementSpeed * Time.deltaTime);
+        Vector3 velocity = _movementActive ? transform.position + inputMovement * (MovementSpeed * Time.deltaTime) : Vector3.zero;
 
         Rigidbody.MovePosition(velocity + new Vector3(0, _jumpVelocity, 0));
     }
@@ -89,6 +90,16 @@ public class PlayerController : MonoBehaviour
 
         _isJumping = true;
         _jumpVelocity = JumpVelocity;
+    }
+
+    public void Boost()
+    {
+        _movementActive = false;
+    }
+
+    public void ExitBoost()
+    {
+        _movementActive = true;
     }
 
     private void OnCollisionEnter(Collision other)
@@ -116,13 +127,13 @@ public class PlayerController : MonoBehaviour
         Input.Gameplay.Movement.performed += context =>
         {
             _movementInput = context.ReadValue<Vector2>();
-            _activeMoveInput = true;
+            //_activeMoveInput = true;
         };
 
         Input.Gameplay.Movement.canceled += context =>
         {
             _movementInput = context.ReadValue<Vector2>();
-            _activeMoveInput = false;
+            //_activeMoveInput = false;
         };
     }
 }
