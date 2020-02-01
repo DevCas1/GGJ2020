@@ -1,43 +1,49 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField, Header("References ~ REQUIRED")]
-    private Transform VisualTransform;
+    public PlayerInput Input { get; private set; }
+    public Rigidbody Rigidbody { get; private set; }
 
-    [SerializeField, Space(10)] 
-    private float MovementSpeed = 10;
-    [SerializeField]
-    private float RotationSpeed = 5;
+    [SerializeField, Header("References ~ REQUIRED")] private Transform VisualTransform;
 
-    private Rigidbody _rb;
-    private PlayerInput _input;
+    [SerializeField, Space(10)] private float MovementSpeed = 10;
+    [SerializeField] private float RotationSpeed = 5;
+
+    [SerializeField, Header("Jumping")] private float JumpVelocity = 5;
+    [SerializeField] private float FallMultiplier = 2.5f;
+    [SerializeField, InspectorName("Jump Landing Check Distance")] private float JumpLandCheckDist;
+    [SerializeField, Range(0.1f, 1), InspectorName("Jump Landing Check Radius")] private float JumpLandCheckRad;
+
     private Vector2 _movementInput;
     private bool _activeMoveInput;
-    private bool _jumpInput;
 
+    private Vector3 _moveVector;
     private Vector2 _movement;
 
     private bool _isJumping;
+    private float _jumpVelocity;
+    private readonly Collider[] _jumpHitAlloc = new Collider[10];
 
     void Awake()
     {
         InitializeInput();
     }
 
-    private void OnEnable() =>_input.Gameplay.Enable();
+    private void OnEnable() => Input.Gameplay.Enable();
 
-    private void OnDisable() => _input.Gameplay.Disable();
+    private void OnDisable() => Input.Gameplay.Disable();
 
-    private void Start() => _rb = GetComponent<Rigidbody>();
+    private void Start() => Rigidbody = GetComponent<Rigidbody>();
 
     private void Update()
     {
-        _jumpInput = _input.Gameplay.Jump.ReadValue<bool>();
-
         RotateVisuals();
-        //MovePlayer();
+
+        if (_isJumping)
+            UpdateJump();
     }
 
     private void FixedUpdate() => MovePlayer();
@@ -54,23 +60,66 @@ public class PlayerController : MonoBehaviour
 
     private void MovePlayer()
     {
-        if (Mathf.Abs(_movementInput.sqrMagnitude - Vector3.zero.sqrMagnitude) <= 0.1f)
+        Vector3 inputMovement = (Mathf.Abs(_movementInput.sqrMagnitude - Vector3.zero.sqrMagnitude) > 0.1f) ? VisualTransform.forward : Vector3.zero;
+
+        //if (Mathf.Abs(_movementInput.sqrMagnitude - Vector3.zero.sqrMagnitude) <= 0.1f)
+        //    return;
+
+        Vector3 velocity = transform.position + inputMovement * (MovementSpeed * Time.deltaTime);
+
+        Rigidbody.MovePosition(velocity + new Vector3(0, _jumpVelocity, 0));
+    }
+
+    private void UpdateJump()
+    {
+        if (Rigidbody.velocity.y < 0)
+            _jumpVelocity += 1 * Physics.gravity.y * FallMultiplier * Time.deltaTime;
+    }
+
+    private void ResetJump()
+    {
+        _isJumping = false;
+        _jumpVelocity = 0;
+    }
+
+    public void Jump()
+    {
+        if (_isJumping)
             return;
 
-        _rb.MovePosition(transform.position + VisualTransform.forward * (MovementSpeed * Time.deltaTime));
+        _isJumping = true;
+        _jumpVelocity = JumpVelocity;
+    }
+
+    private void OnCollisionEnter(Collision other)
+    {
+        if (!_isJumping)
+            return;
+
+        Vector3 position = transform.position;
+
+        int hitCount = Physics.OverlapCapsuleNonAlloc(position + Vector3.down, position + new Vector3(0, -JumpLandCheckDist, 0),
+            JumpLandCheckRad, _jumpHitAlloc);
+
+        if (hitCount < 1)
+            return;
+
+        for (int index = 0; index < hitCount; index++)
+            if (_jumpHitAlloc[index].transform.root.name != gameObject.name)
+                ResetJump();
     }
 
     private void InitializeInput()
     {
-        _input = new PlayerInput();
+        Input = new PlayerInput();
 
-        _input.Gameplay.Movement.performed += context =>
+        Input.Gameplay.Movement.performed += context =>
         {
             _movementInput = context.ReadValue<Vector2>();
             _activeMoveInput = true;
         };
 
-        _input.Gameplay.Movement.canceled += context =>
+        Input.Gameplay.Movement.canceled += context =>
         {
             _movementInput = context.ReadValue<Vector2>();
             _activeMoveInput = false;
