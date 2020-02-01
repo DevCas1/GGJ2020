@@ -40,6 +40,7 @@ public class PlayerGear : MonoBehaviour
     private void Update()
     {
         CheckInputs();
+        MoveGearTransforms();
     }
 
     private void CheckInputs()
@@ -70,25 +71,56 @@ public class PlayerGear : MonoBehaviour
         }
     }
 
-    private void AttachHead(HeadEquipment head)
+    private void MoveGearTransforms()
     {
-        _headEquipment = head;
+        if (_headEquipment != null)
+        {
+            Transform head = _headEquipment.transform;
+            head.position = HeadGearTransform.position;
+            head.rotation = HeadGearTransform.rotation;
+        }
+
+        if (_bodyEquipment != null)
+        {
+            Transform body = _bodyEquipment.transform;
+            body.position = BodyGearTransform.position;
+            body.rotation = BodyGearTransform.rotation;
+        }
+
+        if (_armsEquipment != null)
+        {
+            Transform leftArm = _armsEquipment.LeftArm.transform;
+            Transform leftGearTransform = LeftArmGearTransform.transform;
+            leftArm.position = leftGearTransform.position;
+            leftArm.rotation = leftGearTransform.rotation;
+
+            Transform rightArm = _armsEquipment.RightArm.transform;
+            Transform rightGearTransform = RightArmGearTransform.transform;
+            rightArm.position = rightGearTransform.position;
+            rightArm.rotation = rightGearTransform.rotation;
+        }
+
+        if (_legsEquipment != null)
+        {
+            Transform leftLeg = _legsEquipment.LeftLeg.transform;
+            Transform leftGearTransform = LeftLegGearTransform.transform;
+            leftLeg.position = leftGearTransform.position;
+            leftLeg.rotation = leftGearTransform.rotation;
+
+            Transform rightLeg = _legsEquipment.RightLeg.transform;
+            Transform rightGearTransform = RightLegGearTransform.transform;
+            rightLeg.position = rightGearTransform.position;
+            rightLeg.rotation = rightGearTransform.rotation;
+        }
     }
 
-    private void AttachBody(BodyEquipment body)
-    {
-        _bodyEquipment = body;
-    }
+    private void AttachHead(HeadEquipment head) => _headEquipment = head;
 
-    private void AttachArms(ArmsEquipment arms)
-    {
-        _armsEquipment = arms;
-    }
+    private void AttachBody(BodyEquipment body) =>_bodyEquipment = body;
 
-    private void AttachLegs(LegsEquipment legs)
-    {
-        _legsEquipment = legs;
-    }
+    private void AttachArms(ArmsEquipment arms) => _armsEquipment = arms;
+
+    private void AttachLegs(LegsEquipment legs) => _legsEquipment = legs;
 
     public void DetachHead(HeadEquipment head)
     {

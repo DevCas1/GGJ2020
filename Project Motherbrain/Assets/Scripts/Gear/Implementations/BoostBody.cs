@@ -11,6 +11,8 @@ public class BoostBody : BodyEquipment
     private Vector3 _boostDirection;
     private float _boostTimer;
 
+    private void Start() => _collider = GetComponent<Collider>();
+
     private void Update()
     {
         if (!_isBoosting)
