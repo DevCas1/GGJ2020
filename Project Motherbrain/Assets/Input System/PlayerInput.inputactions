@@ -36,9 +36,9 @@
                 },
                 {
                     "name": "Keyboard",
-                    "id": "e67680bd-6613-4b5f-b649-5b36fff68141",
-                    "path": "2DVector(normalize=false)",
-                    "interactions": "Press,Hold",
+                    "id": "a27b121e-53f1-45f7-89b6-fe4fee7e8a2b",
+                    "path": "2DVector",
+                    "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Movement",
@@ -47,7 +47,7 @@
                 },
                 {
                     "name": "up",
-                    "id": "30e8a2ac-f244-41d1-a9e5-93614da8b93c",
+                    "id": "c0151210-5851-4850-b6fc-412f56cecb59",
                     "path": "<Keyboard>/w",
                     "interactions": "",
                     "processors": "",
@@ -58,7 +58,7 @@
                 },
                 {
                     "name": "down",
-                    "id": "93a93c00-1fc6-40ee-9201-837962567213",
+                    "id": "05bc4bf0-4493-400f-924b-82f9173a6c8b",
                     "path": "<Keyboard>/s",
                     "interactions": "",
                     "processors": "",
@@ -69,7 +69,7 @@
                 },
                 {
                     "name": "left",
-                    "id": "dff3f6fe-d4cd-4595-8e26-79015bec12cb",
+                    "id": "dd72d654-5567-4f6d-a9e2-7e89f71c3cc0",
                     "path": "<Keyboard>/a",
                     "interactions": "",
                     "processors": "",
@@ -80,7 +80,7 @@
                 },
                 {
                     "name": "right",
-                    "id": "aae089a4-cb43-44f4-8574-52904588e6cc",
+                    "id": "10416d02-b9cf-4ca6-8686-ff0492936003",
                     "path": "<Keyboard>/d",
                     "interactions": "",
                     "processors": "",
@@ -91,8 +91,8 @@
                 },
                 {
                     "name": "",
-                    "id": "ded3cd7e-ccf8-4181-9883-5761ebcf22c3",
-                    "path": "<Keyboard>/space",
+                    "id": "e155f5bd-3b2f-4d78-b7c4-4cc17135806f",
+                    "path": "<Gamepad>/buttonSouth",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -102,9 +102,9 @@
                 },
                 {
                     "name": "",
-                    "id": "e155f5bd-3b2f-4d78-b7c4-4cc17135806f",
-                    "path": "<Gamepad>/buttonSouth",
-                    "interactions": "",
+                    "id": "d72d5cb5-0939-4853-9349-509685730302",
+                    "path": "<Keyboard>/space",
+                    "interactions": "Press",
                     "processors": "",
                     "groups": "",
                     "action": "Jump",

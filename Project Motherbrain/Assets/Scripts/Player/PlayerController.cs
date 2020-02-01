@@ -44,8 +44,8 @@ public class PlayerController : MonoBehaviour
         if (Mathf.Abs(lookVector.sqrMagnitude - Vector3.zero.sqrMagnitude) <= 0.1f)
             return;
 
-        VisualTransform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(lookVector, Vector3.up), 1 - Mathf.Exp(-RotationSpeed * Time.deltaTime));
-        //VisualTransform.localRotation = Quaternion.LookRotation(lookVector);
+        VisualTransform.rotation = Quaternion.Slerp(VisualTransform.rotation, Quaternion.LookRotation(lookVector, Vector3.up), 1 - Mathf.Exp(-RotationSpeed * Time.deltaTime));
+        //VisualTransform.localRotation = Quaternion.LookRotation(lookVector, Vector3.up);
         //VisualTransform.Rotate(0, 10, 0);
     }
 
