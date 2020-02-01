@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour
@@ -12,6 +11,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private float RotationSpeed = 5;
 
+    private Rigidbody _rb;
     private PlayerInput _input;
     private Vector2 _movementInput;
     private bool _activeMoveInput;
@@ -30,23 +30,34 @@ public class PlayerController : MonoBehaviour
 
     private void OnDisable() => _input.Gameplay.Disable();
 
-    void Update()
+    private void Start() => _rb = GetComponent<Rigidbody>();
+
+    private void Update()
     {
         _jumpInput = _input.Gameplay.Jump.ReadValue<bool>();
 
         RotateVisuals();
+        //MovePlayer();
     }
+
+    private void FixedUpdate() => MovePlayer();
 
     private void RotateVisuals()
     {
-        Vector3 lookVector = new Vector3(_movementInput.x, 0, _movementInput.y);
+        Vector3 lookVector = transform.TransformDirection(new Vector3(_movementInput.x, 0, _movementInput.y));
 
         if (Mathf.Abs(lookVector.sqrMagnitude - Vector3.zero.sqrMagnitude) <= 0.1f)
             return;
 
         VisualTransform.rotation = Quaternion.Slerp(VisualTransform.rotation, Quaternion.LookRotation(lookVector, Vector3.up), 1 - Mathf.Exp(-RotationSpeed * Time.deltaTime));
-        //VisualTransform.localRotation = Quaternion.LookRotation(lookVector, Vector3.up);
-        //VisualTransform.Rotate(0, 10, 0);
+    }
+
+    private void MovePlayer()
+    {
+        if (Mathf.Abs(_movementInput.sqrMagnitude - Vector3.zero.sqrMagnitude) <= 0.1f)
+            return;
+
+        _rb.MovePosition(transform.position + VisualTransform.forward * (MovementSpeed * Time.deltaTime));
     }
 
     private void InitializeInput()
