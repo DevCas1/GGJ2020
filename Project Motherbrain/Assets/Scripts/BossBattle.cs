@@ -29,6 +29,7 @@ public class BossBattle : MonoBehaviour
     [SerializeField]
     private Transform playerTarget;
     private bool isDead = false;
+    public GameObject Laser;
 
 
     private bool followTarget = true;
@@ -72,12 +73,17 @@ public class BossBattle : MonoBehaviour
                 {
                     Hammer();
                 }
-                else
+                if(rand == 4)  
                 {
                     Rocket();
                 }
+                else
+                {
+                    Laugh();
+                }
                 Debug.Log(rand);
                 WeaponWasFired();
+
             }
         }
 
@@ -92,6 +98,7 @@ public class BossBattle : MonoBehaviour
     {
         StartCoroutine(LookAtCoolDown());
         anim.SetTrigger("Lazer");
+        StartCoroutine(LaserFired());
         anim.SetTrigger("Idle");
 
     }
@@ -146,5 +153,16 @@ public class BossBattle : MonoBehaviour
     public void HealthUpdate()
     {
         bossHpImage.fillAmount = BossHealth / 100f;
+    }
+    
+    IEnumerator LaserFired()
+    {
+        yield return new WaitForSecondsRealtime(0.8f);
+
+        Laser.SetActive(true);
+
+        yield return new WaitForSecondsRealtime(1.5f);
+
+        Laser.SetActive(false);
     }
 }
