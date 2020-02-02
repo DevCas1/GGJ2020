@@ -14,7 +14,7 @@ public class PlayerAnimator : MonoBehaviour
 
     private void Start()
     {
-        PlayerAnim = GetComponent<Animator>();
+        //PlayerAnim = GetComponent<Animator>();
         Idle();
     }
 
