@@ -1,16 +1,23 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BossBattle : MonoBehaviour
 {
-    public int BossHealth
+    public float BossHealth
     {
         get { return bossHealth; }
-    }
+        private set
+        {
+            bossHealth = value;
+        }
+        }
+    [SerializeField]
+    private float bossHealth = 100;
 
-    private int bossHealth = 300;
-
+    [SerializeField]
+    public Image bossHpImage;
     [SerializeField]
     private Animator anim;
     private GameObject player;
@@ -21,6 +28,9 @@ public class BossBattle : MonoBehaviour
 
     [SerializeField]
     private Transform playerTarget;
+    private bool isDead = false;
+    public GameObject Laser;
+
 
     private bool followTarget = true;
 
@@ -32,40 +42,51 @@ public class BossBattle : MonoBehaviour
 
     public void Update()
     {
+        HealthUpdate();
+        Ondeath();
+
         if (followTarget == true)
             transform.LookAt(playerTarget);
         else
             return;
-
-        if (nextFire > 0)
+        if(!isDead)
         {
-            nextFire -= Time.deltaTime;
-            return;
-        }
-        else
-        {
-
-            int rand = Random.Range(1, 5);
-
-            if (rand == 1)
+            if (nextFire > 0)
             {
-                LazerAttack();
-            }
-            if (rand == 2)
-            {
-                Slash();
-            }
-            if (rand == 3)
-            {
-                Hammer();
+                nextFire -= Time.deltaTime;
+                return;
             }
             else
             {
-                Rocket();
-            }
 
-            WeaponWasFired();
+                int rand = Random.Range(1, 5);
+
+                if (rand == 1)
+                {
+                    LazerAttack();
+                }
+                if (rand == 2)
+                {
+                    Slash();
+                }
+                if (rand == 3)
+                {
+                    Hammer();
+                }
+                if(rand == 4)  
+                {
+                    Rocket();
+                }
+                else
+                {
+                    Laugh();
+                }
+                Debug.Log(rand);
+                WeaponWasFired();
+
+            }
         }
+
     }
 
     void WeaponWasFired()
@@ -77,6 +98,7 @@ public class BossBattle : MonoBehaviour
     {
         StartCoroutine(LookAtCoolDown());
         anim.SetTrigger("Lazer");
+        StartCoroutine(LaserFired());
         anim.SetTrigger("Idle");
 
     }
@@ -113,7 +135,8 @@ public class BossBattle : MonoBehaviour
     {
         if (bossHealth <= 0)
         {
-            anim.SetTrigger("Death");
+            anim.SetBool("IsDead", true);
+            isDead = true;
         }
     }
 
@@ -125,5 +148,21 @@ public class BossBattle : MonoBehaviour
 
         followTarget = true;
 
+    }
+
+    public void HealthUpdate()
+    {
+        bossHpImage.fillAmount = BossHealth / 100f;
+    }
+    
+    IEnumerator LaserFired()
+    {
+        yield return new WaitForSecondsRealtime(0.8f);
+
+        Laser.SetActive(true);
+
+        yield return new WaitForSecondsRealtime(1.5f);
+
+        Laser.SetActive(false);
     }
 }
