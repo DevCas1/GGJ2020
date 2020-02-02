@@ -27,10 +27,34 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""Jump"",
+                    ""name"": ""Head"",
+                    ""type"": ""Button"",
+                    ""id"": ""473e24cb-4e51-434e-be6f-7d7db6184b8c"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press""
+                },
+                {
+                    ""name"": ""Body"",
+                    ""type"": ""Button"",
+                    ""id"": ""5a46fade-e908-477d-a665-f44c6c966dcc"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press""
+                },
+                {
+                    ""name"": ""Arms"",
                     ""type"": ""Button"",
                     ""id"": ""60ea519c-1936-446b-8612-8001a060097c"",
                     ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press""
+                },
+                {
+                    ""name"": ""Legs"",
+                    ""type"": ""Button"",
+                    ""id"": ""acdf29cf-669e-4209-8c82-fec83ab4b8e3"",
+                    ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": ""Press""
                 }
@@ -104,12 +128,34 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""0fc73ffd-8021-42e6-983b-15df3ecd82bf"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Body"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f0d1f2c0-217a-4046-ad0b-65a3971ab89c"",
+                    ""path"": ""<Keyboard>/shift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Body"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""e155f5bd-3b2f-4d78-b7c4-4cc17135806f"",
                     ""path"": ""<Gamepad>/buttonSouth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Jump"",
+                    ""action"": ""Legs"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -120,7 +166,29 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                     ""interactions"": ""Press"",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Jump"",
+                    ""action"": ""Legs"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fd06d4fb-3062-434d-b144-cfe037650923"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Arms"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c251362f-1856-494c-8908-96504c59b8b1"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Head"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -132,7 +200,10 @@ public class @PlayerInput : IInputActionCollection, IDisposable
         // Gameplay
         m_Gameplay = asset.FindActionMap("Gameplay", throwIfNotFound: true);
         m_Gameplay_Movement = m_Gameplay.FindAction("Movement", throwIfNotFound: true);
-        m_Gameplay_Jump = m_Gameplay.FindAction("Jump", throwIfNotFound: true);
+        m_Gameplay_Head = m_Gameplay.FindAction("Head", throwIfNotFound: true);
+        m_Gameplay_Body = m_Gameplay.FindAction("Body", throwIfNotFound: true);
+        m_Gameplay_Arms = m_Gameplay.FindAction("Arms", throwIfNotFound: true);
+        m_Gameplay_Legs = m_Gameplay.FindAction("Legs", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -183,13 +254,19 @@ public class @PlayerInput : IInputActionCollection, IDisposable
     private readonly InputActionMap m_Gameplay;
     private IGameplayActions m_GameplayActionsCallbackInterface;
     private readonly InputAction m_Gameplay_Movement;
-    private readonly InputAction m_Gameplay_Jump;
+    private readonly InputAction m_Gameplay_Head;
+    private readonly InputAction m_Gameplay_Body;
+    private readonly InputAction m_Gameplay_Arms;
+    private readonly InputAction m_Gameplay_Legs;
     public struct GameplayActions
     {
         private @PlayerInput m_Wrapper;
         public GameplayActions(@PlayerInput wrapper) { m_Wrapper = wrapper; }
         public InputAction @Movement => m_Wrapper.m_Gameplay_Movement;
-        public InputAction @Jump => m_Wrapper.m_Gameplay_Jump;
+        public InputAction @Head => m_Wrapper.m_Gameplay_Head;
+        public InputAction @Body => m_Wrapper.m_Gameplay_Body;
+        public InputAction @Arms => m_Wrapper.m_Gameplay_Arms;
+        public InputAction @Legs => m_Wrapper.m_Gameplay_Legs;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -202,9 +279,18 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                 @Movement.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnMovement;
                 @Movement.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnMovement;
                 @Movement.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnMovement;
-                @Jump.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnJump;
-                @Jump.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnJump;
-                @Jump.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnJump;
+                @Head.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnHead;
+                @Head.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnHead;
+                @Head.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnHead;
+                @Body.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnBody;
+                @Body.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnBody;
+                @Body.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnBody;
+                @Arms.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnArms;
+                @Arms.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnArms;
+                @Arms.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnArms;
+                @Legs.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnLegs;
+                @Legs.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnLegs;
+                @Legs.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnLegs;
             }
             m_Wrapper.m_GameplayActionsCallbackInterface = instance;
             if (instance != null)
@@ -212,9 +298,18 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                 @Movement.started += instance.OnMovement;
                 @Movement.performed += instance.OnMovement;
                 @Movement.canceled += instance.OnMovement;
-                @Jump.started += instance.OnJump;
-                @Jump.performed += instance.OnJump;
-                @Jump.canceled += instance.OnJump;
+                @Head.started += instance.OnHead;
+                @Head.performed += instance.OnHead;
+                @Head.canceled += instance.OnHead;
+                @Body.started += instance.OnBody;
+                @Body.performed += instance.OnBody;
+                @Body.canceled += instance.OnBody;
+                @Arms.started += instance.OnArms;
+                @Arms.performed += instance.OnArms;
+                @Arms.canceled += instance.OnArms;
+                @Legs.started += instance.OnLegs;
+                @Legs.performed += instance.OnLegs;
+                @Legs.canceled += instance.OnLegs;
             }
         }
     }
@@ -222,6 +317,9 @@ public class @PlayerInput : IInputActionCollection, IDisposable
     public interface IGameplayActions
     {
         void OnMovement(InputAction.CallbackContext context);
-        void OnJump(InputAction.CallbackContext context);
+        void OnHead(InputAction.CallbackContext context);
+        void OnBody(InputAction.CallbackContext context);
+        void OnArms(InputAction.CallbackContext context);
+        void OnLegs(InputAction.CallbackContext context);
     }
 }
