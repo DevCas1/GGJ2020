@@ -29,6 +29,8 @@ public class PlayerController : MonoBehaviour
     private float _jumpVelocity;
     private readonly Collider[] _jumpHitAlloc = new Collider[10];
 
+    private PlayerAnimator _animator;
+
     void Awake()
     {
         InitializeInput();
@@ -41,6 +43,7 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         Rigidbody = GetComponent<Rigidbody>();
+        _animator = GetComponent<PlayerAnimator>();
         _movementActive = true;
     }
 
@@ -69,11 +72,13 @@ public class PlayerController : MonoBehaviour
 
     private void MovePlayer()
     {
-        Vector3 inputMovement = (Mathf.Abs(_movementInput.sqrMagnitude - Vector3.zero.sqrMagnitude) > 0.1f) ? VisualTransform.forward : Vector3.zero;
+        Vector3 inputMovement = (Mathf.Abs(_movementInput.magnitude) > 0.2f) ? VisualTransform.forward : Vector3.zero;
 
         Vector3 velocity = _movementActive ? transform.position + inputMovement * (MovementSpeed * Time.deltaTime) : Vector3.zero;
 
         Rigidbody.MovePosition(velocity + new Vector3(0, _jumpVelocity, 0));
+
+        _animator.Walk(Mathf.Abs(inputMovement.magnitude) > 0.2f);
     }
 
     private void UpdateJump()
@@ -86,6 +91,7 @@ public class PlayerController : MonoBehaviour
     {
         _isJumping = false;
         _jumpVelocity = 0;
+        _animator.Jump(false);
     }
 
     public void Jump()
@@ -95,16 +101,19 @@ public class PlayerController : MonoBehaviour
 
         _isJumping = true;
         _jumpVelocity = JumpVelocity;
+        _animator.Jump(true);
     }
 
     public void Boost()
     {
         _movementActive = false;
+        _animator.Shield(true);
     }
 
     public void ExitBoost()
     {
         _movementActive = true;
+        _animator.Shield(false);
     }
 
     private void OnCollisionEnter(Collision other)
