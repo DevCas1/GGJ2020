@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour
@@ -149,5 +150,7 @@ public class PlayerController : MonoBehaviour
             _movementInput = context.ReadValue<Vector2>();
             //_activeMoveInput = false;
         };
+
+        Input.Gameplay.Legs.performed += context => Jump();
     }
 }
