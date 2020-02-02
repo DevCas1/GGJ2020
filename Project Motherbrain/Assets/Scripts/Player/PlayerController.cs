@@ -56,6 +56,9 @@ public class PlayerController : MonoBehaviour
 
     private void RotateVisuals()
     {
+        if (!_movementActive)
+            return;
+
         Vector3 lookVector = transform.TransformDirection(new Vector3(_movementInput.x, 0, _movementInput.y));
 
         if (Mathf.Abs(lookVector.sqrMagnitude - Vector3.zero.sqrMagnitude) <= 0.1f)
