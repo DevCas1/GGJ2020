@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,12 +6,18 @@ public class BossBattle : MonoBehaviour
 {
     public float BossHealth
     {
-        get { return bossHealth; }
+        get => bossHealth;
+
         private set
         {
             bossHealth = value;
+            UpdateHealthBar();
+
+            if (bossHealth <= 0)
+                Ondeath();
         }
-        }
+    }
+
     [SerializeField]
     private float bossHealth = 100;
 
@@ -20,20 +25,29 @@ public class BossBattle : MonoBehaviour
     public Image bossHpImage;
     [SerializeField]
     private Animator anim;
-    private GameObject player;
+
+    private PlayerController player;
 
     [SerializeField]
-    private float fireRate = 10.0f;
-    private float nextFire = -1f;
+    private float actionCooldown = 10.0f;
+    private float actionCooldownTimer = -1f;
 
     [SerializeField]
     private Transform playerTarget;
-    private bool isDead = false;
-    public GameObject Laser;
+    [SerializeField]
+    private float FollowSpeed = 10;
 
+    private bool isDead;
+    public GameObject Laser;
 
     private bool followTarget = true;
 
+    private static readonly int Rockets = Animator.StringToHash("Rockets");
+    private static readonly int Hammer = Animator.StringToHash("Hammer");
+    private static readonly int PlayerDeath = Animator.StringToHash("PlayerDeath");
+    private static readonly int Slash = Animator.StringToHash("Slash");
+    private static readonly int IsDead = Animator.StringToHash("IsDead");
+    private static readonly int Lazer = Animator.StringToHash("Lazer");
 
     public void TakeDamage(int dmg)
     {
@@ -42,105 +56,90 @@ public class BossBattle : MonoBehaviour
 
     public void Update()
     {
-        HealthUpdate();
-        Ondeath();
-
-        if (followTarget == true)
-            transform.LookAt(playerTarget);
-        else
+        if (isDead)
             return;
-        if(!isDead)
+
+        if (followTarget)
+            transform.LookAt(playerTarget);
+
+        if (actionCooldownTimer > 0)
         {
-            if (nextFire > 0)
-            {
-                nextFire -= Time.deltaTime;
-                return;
-            }
-            else
-            {
-
-                int rand = Random.Range(1, 5);
-
-                if (rand == 1)
-                {
-                    LazerAttack();
-                }
-                if (rand == 2)
-                {
-                    Slash();
-                }
-                if (rand == 3)
-                {
-                    Hammer();
-                }
-                if(rand == 4)  
-                {
-                    Rocket();
-                }
-                else
-                {
-                    Laugh();
-                }
-                Debug.Log(rand);
-                WeaponWasFired();
-
-            }
+            actionCooldownTimer -= Time.deltaTime;
+            return;
         }
 
+        int random = Random.Range(1, 5);
+
+        switch (random)
+        {
+            case 1:
+                LazerAttack();
+                break;
+            case 2:
+                SlashAttack();
+                break;
+            case 3:
+                HammerAttack();
+                break;
+            case 4:
+                RocketAttack();
+                break;
+            default:
+                Laugh();
+                break;
+        }
+
+        Debug.Log(random);
+        OnActionPerformed();
     }
 
-    void WeaponWasFired()
+    private void OnActionPerformed()
     {
-        nextFire = fireRate;
+        actionCooldownTimer = actionCooldown;
     }
 
     public void LazerAttack()
     {
         StartCoroutine(LookAtCoolDown());
-        anim.SetTrigger("Lazer");
+        anim.SetTrigger(Lazer);
         StartCoroutine(LaserFired());
-        anim.SetTrigger("Idle");
 
     }
-    
-    public void Slash()
+
+    public void SlashAttack()
     {
         StartCoroutine(LookAtCoolDown());
-        anim.SetTrigger("Slash");
-        anim.SetTrigger("Idle");
+        anim.SetTrigger(Slash);
     }
 
     public void Laugh()
     {
         StartCoroutine(LookAtCoolDown());
-        anim.SetTrigger("PlayerDeath");
-        anim.SetTrigger("Idle");
+        anim.SetTrigger(PlayerDeath);
     }
 
-    public void Hammer()
+    public void HammerAttack()
     {
         StartCoroutine(LookAtCoolDown());
-        anim.SetTrigger("Hammer");
-        anim.SetTrigger("Idle");
+        anim.SetTrigger(Hammer);
     }
 
-    public void Rocket()
+    public void RocketAttack()
     {
         StartCoroutine(LookAtCoolDown());
-        anim.SetTrigger("Rockets");
-        anim.SetTrigger("Idle");
+        anim.SetTrigger(Rockets);
     }
 
-    void Ondeath()
+    private void Ondeath()
     {
-        if (bossHealth <= 0)
-        {
-            anim.SetBool("IsDead", true);
-            isDead = true;
-        }
+        if (!(bossHealth <= 0))
+            return;
+
+        anim.SetBool(IsDead, true);
+        isDead = true;
     }
 
-    IEnumerator LookAtCoolDown()
+    private IEnumerator LookAtCoolDown()
     {
         followTarget = false;
 
@@ -150,11 +149,8 @@ public class BossBattle : MonoBehaviour
 
     }
 
-    public void HealthUpdate()
-    {
-        bossHpImage.fillAmount = BossHealth / 100f;
-    }
-    
+    public void UpdateHealthBar() => bossHpImage.fillAmount = BossHealth / 100f;
+
     IEnumerator LaserFired()
     {
         yield return new WaitForSecondsRealtime(0.8f);

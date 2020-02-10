@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -1739,7 +1739,7 @@ MonoBehaviour:
   bossHealth: 100
   bossHpImage: {fileID: 33578666}
   anim: {fileID: 733430995}
-  fireRate: 6
+  actionCooldown: 10
   playerTarget: {fileID: 2054644465}
   Laser: {fileID: 145769595}
 --- !u!95 &733430995
