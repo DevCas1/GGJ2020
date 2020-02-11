@@ -46,7 +46,6 @@ public class Rocket : MonoBehaviour
         if (player == null)
             return;
 
-        Debug.Log("Boom");
         Explode(player);
     }
 
